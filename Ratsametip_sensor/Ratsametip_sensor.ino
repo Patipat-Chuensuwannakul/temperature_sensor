@@ -7,7 +7,7 @@
  */
 
 #include <ESP8266WiFi.h>
-#include "DHT.h" 
+#include "DHT.h"
 #define DHTPIN 4 
 #define DHTTYPE DHT11   // DHT 11 
  // Initialize DHT sensor for normal 16mhz Arduino
