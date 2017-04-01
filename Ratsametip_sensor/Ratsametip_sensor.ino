@@ -13,11 +13,11 @@
  // Initialize DHT sensor for normal 16mhz Arduino
 DHT dht(DHTPIN, DHTTYPE);
 //edit to home wifi setting **************************
-const char* ssid     = "CS_TEACH2";
-const char* password = "c$1029^_^";
+const char* ssid     = "chuenhome";
+const char* password = "churit888";
  
 // edit to digital ocean host ***********************
-const char* host = "139.59.236.104"; 
+const char* host = "188.166.178.62"; 
 
 int value = 0;
 float rh=0.0;
@@ -97,14 +97,14 @@ void loop() {
   
   // Use WiFiClient class to create TCP connections
   WiFiClient client;
-  const int httpPort = 80;
+  const int httpPort = 4500;
   if (!client.connect(host, httpPort)) {
     Serial.println("connection failed");
     return;
   } 
   // We now create a URI for the request
  // edit path of the server here *******************************************
-  String url = "/dht/upload_data.php";
+  String url = "/sensor/";
   String data;
   String tmp;
   if (error){
@@ -127,13 +127,15 @@ void loop() {
     data += tmp;  
   }
    url += data;
-  Serial.print("Requesting URL: ");
+   Serial.print("Requesting URL: ");
    Serial.println(url);
   
   // This will send the request to the server
-  client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-               "Host: " + host + "\r\n" + 
-               "Connection: close\r\n\r\n");
+  if (client.connect(host, httpPort)) {
+      client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                   "Host: " + host + "\r\n" + 
+                   "Connection: close\r\n\r\n");
+  }
   unsigned long timeout = millis();
   while (client.available() == 0) {
     if (millis() - timeout > 5000) {
